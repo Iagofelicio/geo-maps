@@ -1,0 +1,37 @@
+{
+    "name": "iagofelicio/geo-maps",
+    "autoload": {
+        "psr-4": {
+            "Iagofelicio\\GeoMaps\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Iagofelicio\\GeoMaps\\Tests\\": "tests"
+        }
+    },
+    "require": {
+        "statamic/cms": "^5.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "pixelfear/composer-dist-plugin": true
+        }
+    },
+    "extra": {
+        "statamic": {
+            "name": "Geo Maps",
+            "description": "Geo Maps addon"
+        },
+        "laravel": {
+            "providers": [
+                "Iagofelicio\\GeoMaps\\ServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

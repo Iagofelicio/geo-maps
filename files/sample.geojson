@@ -1,0 +1,57 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-54.0000, -10.0000],
+              [-50.0000, -10.0000],
+              [-46.0000, -13.0000],
+              [-48.0000, -16.0000],
+              [-54.0000, -15.0000],
+              [-54.0000, -10.0000]
+            ]
+          ]
+        },
+        "properties": {
+          "name": "Polygon",
+          "description": "A polygon covering an area that spans the states of Mato Grosso, Tocantins, Bahia, Goiás, and Mato Grosso do Sul."
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-43.1729, -22.9068]
+        },
+        "properties": {
+          "name": "Point",
+          "description": "A point marking the location of Rio de Janeiro, Brazil.",
+          "latLon": [-22.9068,-43.1729]
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [-51.9253, -14.2350],
+            [-47.9292, -15.7801],
+            [-43.1729, -22.9068]
+          ]
+        },
+        "properties": {
+          "name": "Line",
+          "description": "A line connecting central Brazil, Brasília, and Rio de Janeiro.",
+          "distances": {
+            "Meters": 1398524.04,
+            "Kilometers": 1398.52,
+            "Miles": 869
+          }
+        }
+      }
+    ]
+  }
