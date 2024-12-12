@@ -75,7 +75,8 @@ These options can be changed as in the example below:
 }}
 ```
 
-**Important**: Map IDs on the same page cannot be the same.
+**Important 1**: Map IDs on the same page cannot be the same.
+**Important 2**: You may need to place the map tag in a div, do some tests!
 
 #### 2. Single Marker
 
