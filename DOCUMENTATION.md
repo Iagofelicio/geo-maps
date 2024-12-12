@@ -155,7 +155,7 @@ _Example 2_:
 {{ map:geojson
     center="[-15,-51]"
     zoom="7"
-    url="https://raw.githubusercontent.com/openlayers/openlayers/refs/heads/main/examples/data/geojson/polygon-samples.geojson"
+    url="https://raw.githubusercontent.com/Iagofelicio/geo-maps/refs/heads/main/files/sample.geojson"
 }}
 ```
 
