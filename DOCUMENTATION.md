@@ -124,7 +124,7 @@ The key to adding multiple markers is to use the ```marker_``` prefix and specif
 
 A working example of GeoJSON can be found in the files directory of this repository. 
 
-[sample.geojson](files/sample.geojson)
+[sample.geojson](https://raw.githubusercontent.com/Iagofelicio/geo-maps/refs/heads/main/files/sample.geojson)
 
 There are two ways to pass GeoJSON content to the ```map:geojson``` method:
 
