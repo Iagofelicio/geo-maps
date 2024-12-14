@@ -111,11 +111,11 @@ You can add as many markers as you want. However, to add more than one, use the 
 {{ map:markers
     # Other map options ...
     center="[-22,-51]" # If not informed, the default will be used
-    marker_1="icon=map-pin-house,lat=-30,lon=30,iconSize=48,strokeWidth=1,text=Message for marker 1"
-    marker_2="color=green,lat=-26,lon=51,iconSize=52,strokeWidth=1,text=Message for <b>marker 2</b>"
+    marker_1="icon=map-pin-house|lat=-30|lon=30|iconSize=48|strokeWidth=1|text=Message for marker 1"
+    marker_2="color=green|lat=-26|lon=51|iconSize=52|strokeWidth=1|text=Message for <b>marker 2</b>"
 }}
 ```
-The key to adding multiple markers is to use the ```marker_``` prefix and specify all marker parameters separated by commas. As in the example above. You can omit some options if you want default values ​​to be used.
+The key to adding multiple markers is to use the ```marker_``` prefix and specify all marker parameters separated by pipes. As in the example above. You can omit some options if you want default values ​​to be used.
 
 
 #### 4. GeoJSON

@@ -183,7 +183,7 @@ class Map extends Tags
                         ['missing_info' => "Missing lat (latitude) and/or lon (longitude) of $key"]
                     );
                 }
-                $markerTmpString = explode(',',$value);
+                $markerTmpString = explode('|',$value);
                 foreach($markerTmpString as $option){
                     $optionKey = (explode('=',$option))[0];
                     $optionValue = (explode('=',$option))[1];
