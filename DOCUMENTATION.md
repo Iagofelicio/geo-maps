@@ -31,13 +31,15 @@ Once installed, the Geo Maps addon integrates seamlessly into your Statamic proj
 
 ### Loading required libs
 
-The ```map:requirements``` tag is a powerful utility provided by the Geo Maps addon that adds all the necessary libraries to your page. 
+Geo Maps has a special tag responsible for adding all the necessary libs. This includes linking the required Leaflet JS and Lucide assets, along with any additional stylesheets or scripts needed to ensure your maps function smoothly. 
 
-This includes linking the required Leaflet JS and Lucide assets, along with any additional stylesheets or scripts needed to ensure your maps function smoothly. 
+``` php
+{{ map:requirements }}
+```
 
 By placing this tag in your template's or page's ```<head>``` section, you ensure that your maps have all the foundational components they need to render correctly and interactively.
 
-Example usage: 
+**Example usage**: 
 
 ```html
 <head>
@@ -45,6 +47,8 @@ Example usage:
     {{ map:requirements }}
 </head>
 ```
+
+**Tip**: In fact, you can add this tag anywhere, but it is common to put it in the ```head``` tag.
 
 ### Creating maps
 
@@ -65,8 +69,8 @@ These options can be changed as in the example below:
 ```php
 {{ map 
     id="yourCustomId" # Default: random id
-    width="100%" # Default: 100%
-    height="100%" # Default: 100%
+    width="100%" # Default: 500px
+    height="500px" # Default: 500px
     colorScheme="light" # Default: automatic. Options: light or dark
     popup="true" # Default: true
     center="[-23,-48]" # Must be in the format [lat,lon]. Default: [0,0]
@@ -75,8 +79,9 @@ These options can be changed as in the example below:
 }}
 ```
 
-**Important 1**: Map IDs on the same page cannot be the same.
-**Important 2**: You may need to place the map tag in a div, do some tests!
+**Important**: Map IDs on the same page cannot be the same.
+
+**Tip**: Sometimes when inserting maps inside some HTML elements with dynamic size calculation, the map may not be displayed if you try to use **width** and **height** equal to **100%**. In these cases, it may be necessary to place a div with a well-defined size and the map tag inside it.
 
 #### 2. Single Marker
 
@@ -88,7 +93,7 @@ To add a marker to the map you must use the method below. All parameters of a bl
     lat="-23" # Required
     lon="-48" # Required
     zoom=7 # If not informed, it will be used "5"
-    center="[-20,-30]" # If not informed, the lat and lon values will be used
+    center="[-23,-48]" # If not informed, the lat and lon values will be used
     text="This is the message to be visualized when someone click the <b>popup</b>."
     icon="map-pin-house" # Default: map-pin. It can be any icon from Lucide
     color="#ed5d69" # Fill color. Default: #3591b3 
@@ -159,6 +164,8 @@ _Example 2_:
     url="https://raw.githubusercontent.com/Iagofelicio/geo-maps/refs/heads/main/files/sample.geojson"
 }}
 ```
+
+**Tip**: You will notice that when you click on each GeoJSON object, a table of properties is displayed. The tag is programmed to display any properties that exist, inspect the example GeoJSON to understand how to include information in the popups.
 
 ## Contributions
 

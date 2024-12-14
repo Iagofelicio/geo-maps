@@ -15,7 +15,7 @@ class Map extends Tags
     private $centerLon = 0;
     private $zoom = '1';
     private $maxZoom = 20;
-    private $width = '100%';
+    private $width = '500px';
     private $height = '500px';
     private $icon = 'map-pin';
     private $color = '#3591b3';
