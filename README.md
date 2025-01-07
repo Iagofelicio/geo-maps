@@ -4,9 +4,9 @@
 
 > **Geo Maps** is a Statamic addon that empowers users to seamlessly embed dynamic, customizable maps into their pages using **tags**.
 
-## Geo Maps is a Commercial Addon.
+## Geo Analytics is a Free Addon.
 
-You can use it for free while in development, but requires a license to use on a live site. Learn more or buy a license on [The Statamic Marketplace](https://statamic.com/addons/ol4mundo/geo-maps)!
+You can use it for free on both development and live sites. Learn more on [The Statamic Marketplace](https://statamic.com/addons/ol4mundo/geo-maps)!
 
 ## Documentation
 
