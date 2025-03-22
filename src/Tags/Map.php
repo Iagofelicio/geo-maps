@@ -168,6 +168,16 @@ class Map extends Tags
         $colorScheme = $this->params->get('colorScheme', $this->colorScheme);
         $colorSchemeString = Helper::parseColorScheme($colorScheme);
 
+        $markersArr = $this->params->get('markers', null);
+        if($markersArr != null){
+            $markersArr = trim($markersArr, "[]");
+            preg_match_all("/'([^']*)'/", $markersArr, $matches);
+            $listMarkers = $matches[1];
+            foreach($listMarkers as $key => $marker){
+                $trimmedStringMarker = trim($marker);
+                $this->params['marker_arr'.($key)] = $trimmedStringMarker;
+            }
+        }
         $allMarkers = [];
         foreach($this->params as $key => $value){
             $text = $this->text;

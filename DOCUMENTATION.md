@@ -2,7 +2,7 @@
 
 > **Geo Maps** is a Statamic addon that empowers users to seamlessly embed dynamic, customizable maps into their pages using **tags**.
 >
-> It leverages the power of [Leaflet JS](https://leafletjs.com/), an open-source JavaScript library widely known for its simplicity, performance, and versatility in creating interactive maps. 
+> It leverages the power of [Leaflet JS](https://leafletjs.com/), an open-source JavaScript library widely known for its simplicity, performance, and versatility in creating interactive maps.
 >
 > Additionally, Geo Maps integrates [Lucide](https://lucide.dev/), an open-source icon library offering over 1000 high-quality vector (SVG) icons. Lucide enhances the package by providing visually appealing, scalable icons and symbols that complement the map displays. These icons are ideal for markers, ensuring an intuitive and aesthetically pleasing user experience.
 >
@@ -21,7 +21,7 @@ This addon does:
 
 You can install this addon via Composer:
 
-``` bash
+```bash
 composer require iagofelicio/geo-maps
 ```
 
@@ -31,15 +31,15 @@ Once installed, the Geo Maps addon integrates seamlessly into your Statamic proj
 
 ### Loading required libs
 
-Geo Maps has a special tag responsible for adding all the necessary libs. This includes linking the required Leaflet JS and Lucide assets, along with any additional stylesheets or scripts needed to ensure your maps function smoothly. 
+Geo Maps has a special tag responsible for adding all the necessary libs. This includes linking the required Leaflet JS and Lucide assets, along with any additional stylesheets or scripts needed to ensure your maps function smoothly.
 
-``` php
+```php
 {{ map:requirements }}
 ```
 
-By placing this tag in your template's or page's ```<head>``` section, you ensure that your maps have all the foundational components they need to render correctly and interactively.
+By placing this tag in your template's or page's ``<head>`` section, you ensure that your maps have all the foundational components they need to render correctly and interactively.
 
-**Example usage**: 
+**Example usage**:
 
 ```html
 <head>
@@ -48,13 +48,13 @@ By placing this tag in your template's or page's ```<head>``` section, you ensur
 </head>
 ```
 
-**Tip**: In fact, you can add this tag anywhere, but it is common to put it in the ```head``` tag.
+**Tip**: In fact, you can add this tag anywhere, but it is common to put it in the ``head`` tag.
 
 ### Creating maps
 
 #### 1. Blank Map
 
-The simplest way to add a map to your page is by using the ```{{ map }}``` tag. This single tag renders a blank map with default settings, providing a quick and easy starting point. By using this default setup, you can immediately display a functional map, which can later be customized with additional options and parameters described in the sections below.
+The simplest way to add a map to your page is by using the ``{{ map }}`` tag. This single tag renders a blank map with default settings, providing a quick and easy starting point. By using this default setup, you can immediately display a functional map, which can later be customized with additional options and parameters described in the sections below.
 
 The default options include:
 
@@ -113,20 +113,27 @@ You can add as many markers as you want. However, to add more than one, use the 
     center="[-22,-51]" # If not informed, the default will be used
     marker_1="icon=map-pin-house|lat=-30|lon=30|iconSize=48|strokeWidth=1|text=Message for marker 1"
     marker_2="color=green|lat=-26|lon=51|iconSize=52|strokeWidth=1|text=Message for <b>marker 2</b>"
+    markers="['color=#7c51ad|icon=locate-fixed|lat=-21|lon=-41|iconSize=30|strokeWidth=1|text=Message for marker 3', 'color=#b84141|lat=-25|lon=-53|iconSize=35|strokeWidth=1|text=Message for <b>marker 4</b>']"
 }}
 ```
-The key to adding multiple markers is to use the ```marker_``` prefix and specify all marker parameters separated by pipes. As in the example above. You can omit some options if you want default values ​​to be used.
 
+Using the **marker_*X*** prefix:
+
+To add multiple markers, you can use the **marker_** prefix followed by the marker's parameters, separated by pipes. Each marker is defined individually, and you can omit certain options if you want to use their default values. For example, **marker_1="color=red|lat=-20|lon=-43"** defines a marker with a red color at the specified latitude and longitude.
+
+Using the **markers** array option:
+
+Alternatively, you can use the **markers** array option to define multiple markers in a single structure. Each marker is an element in the array, with its parameters separated by pipes. This approach is useful for organizing multiple markers in a clean and concise way. For example, **markers="['color=red|lat=-20|lon=-43', 'color=blue|lat=-25|lon=-50']"** defines two markers with their respective properties.
 
 #### 4. GeoJSON
 
 [GeoJSON](https://geojson.org/) is a format for encoding a variety of geographic data structures.
 
-A working example of GeoJSON can be found in the files directory of this repository. 
+A working example of GeoJSON can be found in the files directory of this repository.
 
 [sample.geojson](https://raw.githubusercontent.com/Iagofelicio/geo-maps/refs/heads/main/files/sample.geojson)
 
-There are two ways to pass GeoJSON content to the ```map:geojson``` method:
+There are two ways to pass GeoJSON content to the ``map:geojson`` method:
 
 ##### 4.1. Content
 
@@ -139,6 +146,7 @@ Suppose the page where you will insert the map has a variable with GeoJSON conte
     data="{{globals:geojson}}"
 }}
 ```
+
 The above code is enough to insert the map including the desired content.
 
 ##### 4.2. URL
