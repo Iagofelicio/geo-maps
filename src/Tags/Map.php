@@ -168,14 +168,28 @@ class Map extends Tags
         $colorScheme = $this->params->get('colorScheme', $this->colorScheme);
         $colorSchemeString = Helper::parseColorScheme($colorScheme);
 
-        $markersArr = $this->params->get('markers', null);
-        if($markersArr != null){
-            $markersArr = trim($markersArr, "[]");
-            preg_match_all("/'([^']*)'/", $markersArr, $matches);
-            $listMarkers = $matches[1];
-            foreach($listMarkers as $key => $marker){
-                $trimmedStringMarker = trim($marker);
-                $this->params['marker_arr'.($key)] = $trimmedStringMarker;
+        $markersRaw = $this->params->get('markers', null);
+        if($markersRaw != null){
+            if(is_array($markersRaw)){
+                foreach($markersRaw as $key => $markerItem){
+                    if(is_string($markerItem)){
+                        $this->params['marker_array_'.($key)] = $markerItem;
+                    } elseif(is_array($markerItem)){
+                        $markerItemParsed = [];
+                        foreach($markerItem as $keyParam => $valParam){
+                            $markerItemParsed[] = "$keyParam=$valParam";
+                        }
+                        $this->params['marker_array_'.($key)] = implode('|', $markerItemParsed);
+                    } else {
+                        throw ValidationException::withMessages(
+                            ['error' => "The option 'markers=' of map:markers tag expects a valid array object. Checkout the documentation for examples."]
+                        );
+                    }
+                }
+            } else {
+                throw ValidationException::withMessages(
+                    ['error' => "The option 'markers=' of map:markers tag expects a valid array object. Checkout the documentation for examples."]
+                );
             }
         }
         $allMarkers = [];
