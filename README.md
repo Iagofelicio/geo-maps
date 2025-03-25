@@ -15,5 +15,3 @@ For complete documentation, including live examples of how to use the Geo Maps p
 ## Credits
 
 - [Iago Felicio](https://github.com/iagofelicio)
-- [All Contributors](../../contributors)
-
