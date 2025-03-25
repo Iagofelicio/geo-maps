@@ -108,12 +108,27 @@ To add a marker to the map you must use the method below. All parameters of a bl
 You can add as many markers as you want. However, to add more than one, use the following method. (Note that the method is plural).
 
 ```php
+# Consider the array $markers:
+{{? $markers = [
+    0 => 'color=#7c51ad|icon=locate-fixed|lat=-21|lon=-41|iconSize=30|strokeWidth=1|text=Message for marker 3',
+    1 => [
+            "color" => "#b84141",
+            "lat" => "-25",
+            "lon" => "-53",
+            "iconSize" => "35",
+            "strokeWidth" => "1",
+            "text" => "Message for <b>marker 4</b>"
+        ]
+    ] 
+?}}
+# You can combine two different ways to describe your markers array or use only the one you prefer.
+
 {{ map:markers
     # Other map options ...
     center="[-22,-51]" # If not informed, the default will be used
     marker_1="icon=map-pin-house|lat=-30|lon=30|iconSize=48|strokeWidth=1|text=Message for marker 1"
     marker_2="color=green|lat=-26|lon=51|iconSize=52|strokeWidth=1|text=Message for <b>marker 2</b>"
-    markers="['color=#7c51ad|icon=locate-fixed|lat=-21|lon=-41|iconSize=30|strokeWidth=1|text=Message for marker 3', 'color=#b84141|lat=-25|lon=-53|iconSize=35|strokeWidth=1|text=Message for <b>marker 4</b>']"
+    markers="{{ $markers }}"
 }}
 ```
 
@@ -123,7 +138,12 @@ To add multiple markers, you can use the **marker_** prefix followed by the mark
 
 Using the **markers** array option:
 
-Alternatively, you can use the **markers** array option to define multiple markers in a single structure. Each marker is an element in the array, with its parameters separated by pipes. This approach is useful for organizing multiple markers in a clean and concise way. For example, **markers="['color=red|lat=-20|lon=-43', 'color=blue|lat=-25|lon=-50']"** defines two markers with their respective properties.
+Alternatively, you can use the **`markers`** array option to define multiple markers in a single structure. Each marker is represented as an element in the array, with its parameters formatted either as:
+
+* A **pipe-separated string** (e.g., `"color=#7c51ad|icon=locate-fixed|lat=-21|lon=-41"`), or
+* A **key-value pair array** (e.g., `["color" => "#7c51ad", "icon" => "located-fixed", "lat" => -21, "lon" => -41]`).
+
+This approach is useful for organizing multiple markers in a clean and concise way.
 
 #### 4. GeoJSON
 
