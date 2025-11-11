@@ -210,7 +210,7 @@ class Map extends Tags
                 $markerTmpString = explode('|',$value);
                 foreach($markerTmpString as $option){
                     $optionKey = (explode('=',$option))[0];
-                    $optionValue = (explode('=',$option,2))[1];
+                    $optionValue = str_replace("'","\\'",(explode('=',$option,2))[1]);
                     match ($optionKey) {
                         'lat' => $lat = $optionValue,
                         'lon' => $lon = $optionValue,
