@@ -25,8 +25,8 @@ class Helper
         $validator = Validator::make($data, [
             'id' => ['nullable', 'max:30'],
             'icon' => ['nullable', 'string', 'max:20'],
-            'color' => ['nullable', 'hex_color'],
-            'strokeColor' => ['nullable', 'hex_color'],
+            'color' => ['nullable', 'regex:/^#(?:[0-9a-fA-F]{3}){1,2}$/'],
+            'strokeColor' => ['nullable', 'regex:/^#(?:[0-9a-fA-F]{3}){1,2}$/'],
             'strokeWidth' => ['nullable', 'integer', 'min:0', 'max:10'],
             'iconSize' => ['nullable', 'integer'],
             'width' => ['nullable', 'string', 'regex:/^\d+(px|%|rem|em|vh|vw)?$/'],
@@ -48,9 +48,9 @@ class Helper
             'markers.*.lon' => ['required_with:markers', 'numeric', 'min:-180', 'max:180'],
             'markers.*.iconSize' => ['nullable','numeric'],
             'markers.*.icon' => ['nullable','string', 'max:20'],
-            'markers.*.color' => ['nullable','hex_color'],
+            'markers.*.color' => ['nullable','regex:/^#(?:[0-9a-fA-F]{3}){1,2}$/'],
             'markers.*.strokeWidth' => ['nullable','integer', 'min:0', 'max:10'],
-            'markers.*.strokeColor' => ['nullable','hex_color'],
+            'markers.*.strokeColor' => ['nullable','regex:/^#(?:[0-9a-fA-F]{3}){1,2}$/'],
             'markers.*.text' => ['nullable','string'],
         ]);
 
