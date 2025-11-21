@@ -94,7 +94,7 @@ To add a marker to the map you must use the method below. All parameters of a bl
     lon="-48" # Required
     zoom=7 # If not informed, it will be used "5"
     center="[-23,-48]" # If not informed, the lat and lon values will be used
-    text="This is the message to be visualized when someone click the <b>popup</b>."
+    text="I'm the message to be visualized when someone click the <b>popup</b>."
     icon="map-pin-house" # Default: map-pin. It can be any icon from Lucide
     color="#ed5d69" # Fill color. Default: #3591b3 
     strokeColor="#c7f4fe" # Outline color. Default: #c7f4fe
@@ -110,40 +110,35 @@ You can add as many markers as you want. However, to add more than one, use the 
 ```php
 # Consider the array $markers:
 {{? $markers = [
-    0 => 'color=#7c51ad|icon=locate-fixed|lat=-21|lon=-41|iconSize=30|strokeWidth=1|text=Message for marker 3',
-    1 => [
+        0 => [
+            "color" => "#7c51ad",
+            "icon" => "locate-fixed",
+            "lat" => -21,
+            "lon" => -41,
+            "iconSize" => 30,
+            "strokeWidth" => 1,
+            "text" => "Message for marker 3"
+        ],
+        1 => [
             "color" => "#b84141",
-            "lat" => "-25",
-            "lon" => "-53",
-            "iconSize" => "35",
-            "strokeWidth" => "1",
-            "text" => "Message for <b>marker 4</b>"
+            "lat" => -25,
+            "lon" => -53,
+            "iconSize" => 35,
+            "strokeWidth" => 1,
+            "text" => "I'm the message for <b>marker 4</b>."
         ]
-    ] 
-?}}
-# You can combine two different ways to describe your markers array or use only the one you prefer.
+]?}}
 
+# You should now pass the arraw of markers to the tag.
 {{ map:markers
     # Other map options ...
     center="[-22,-51]" # If not informed, the default will be used
-    marker_1="icon=map-pin-house|lat=-30|lon=30|iconSize=48|strokeWidth=1|text=Message for marker 1"
-    marker_2="color=green|lat=-26|lon=51|iconSize=52|strokeWidth=1|text=Message for <b>marker 2</b>"
     markers="{{ $markers }}"
 }}
 ```
 
-Using the **marker_*X*** prefix:
-
-To add multiple markers, you can use the **marker_** prefix followed by the marker's parameters, separated by pipes. Each marker is defined individually, and you can omit certain options if you want to use their default values. For example, **marker_1="color=red|lat=-20|lon=-43"** defines a marker with a red color at the specified latitude and longitude.
-
-Using the **markers** array option:
-
-Alternatively, you can use the **`markers`** array option to define multiple markers in a single structure. Each marker is represented as an element in the array, with its parameters formatted either as:
-
-* A **pipe-separated string** (e.g., `"color=#7c51ad|icon=locate-fixed|lat=-21|lon=-41"`), or
-* A **key-value pair array** (e.g., `["color" => "#7c51ad", "icon" => "located-fixed", "lat" => -21, "lon" => -41]`).
-
 This approach is useful for organizing multiple markers in a clean and concise way.
+
 
 #### 4. GeoJSON
 
