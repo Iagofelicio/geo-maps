@@ -5,6 +5,7 @@ namespace Iagofelicio\GeoMaps\Tags;
 use Statamic\Tags\Tags;
 use Statamic\Support\Str;
 use Statamic\Assets\Asset;
+use Mews\Purifier\Facades\Purifier;
 use Iagofelicio\GeoMaps\Utils\Helper;
 use Illuminate\Validation\ValidationException;
 
@@ -58,6 +59,8 @@ class Map extends Tags
      */
     public function index()
     {
+        Helper::validateTagParams($this->params);
+
         $width = $this->params->get('width', $this->width);
         $height = $this->params->get('height', $this->height);
         $id = $this->params->get('id', 'id_'.mt_rand(1000,9999));
@@ -97,6 +100,8 @@ class Map extends Tags
      */
     public function marker()
     {
+        Helper::validateTagParams($this->params);
+
         if($this->params->get('lat') == null || $this->params->get('lon') == null){
             throw ValidationException::withMessages(
                 ['missing_info' => 'Missing lat (latitude) and/or lon (longitude) of marker']
@@ -117,6 +122,7 @@ class Map extends Tags
         $center = $this->params->get('center', '['.$lat.', '.$lon.']');
 
         $text = $this->params->get('text', $this->text);
+        $text = Purifier::clean(str_replace("'","\\'",$text));
         $color = $this->params->get('color', $this->color);
         $iconSize = $this->params->get('iconSize', $this->iconSize);
         $icon = $this->params->get('icon', $this->icon);
@@ -156,6 +162,8 @@ class Map extends Tags
      */
     public function markers()
     {
+        Helper::validateTagParams($this->params);
+
         $width = $this->params->get('width', $this->width);
         $height = $this->params->get('height', $this->height);
         $id = $this->params->get('id', 'id_'.mt_rand(1000,9999));
@@ -168,64 +176,33 @@ class Map extends Tags
         $colorScheme = $this->params->get('colorScheme', $this->colorScheme);
         $colorSchemeString = Helper::parseColorScheme($colorScheme);
 
-        $markersRaw = $this->params->get('markers', null);
-        if($markersRaw != null){
-            if(is_array($markersRaw)){
-                foreach($markersRaw as $key => $markerItem){
-                    if(is_string($markerItem)){
-                        $this->params['marker_array_'.($key)] = $markerItem;
-                    } elseif(is_array($markerItem)){
-                        $markerItemParsed = [];
-                        foreach($markerItem as $keyParam => $valParam){
-                            $markerItemParsed[] = "$keyParam=$valParam";
-                        }
-                        $this->params['marker_array_'.($key)] = implode('|', $markerItemParsed);
-                    } else {
-                        throw ValidationException::withMessages(
-                            ['error' => "The option 'markers=' of map:markers tag expects a valid array object. Checkout the documentation for examples."]
-                        );
-                    }
-                }
-            } else {
-                throw ValidationException::withMessages(
-                    ['error' => "The option 'markers=' of map:markers tag expects a valid array object. Checkout the documentation for examples."]
-                );
-            }
-        }
         $allMarkers = [];
-        foreach($this->params as $key => $value){
-            $text = $this->text;
-            $color = $this->color;
-            $iconSize = $this->iconSize;
-            $icon = $this->icon;
-            $strokeWidth = $this->strokeWidth;
-            $strokeColor = $this->strokeColor;
-
-            if(Str::contains($key,'marker_')){
-                if(!Str::contains($value,'lat') || !Str::contains($value,'lon')){
+        if(isset($this->params['markers'])){
+            foreach($this->params['markers'] as $key => $markerItem){
+                if(!isset($markerItem['lat']) || !isset($markerItem['lon'])){
                     throw ValidationException::withMessages(
                         ['missing_info' => "Missing lat (latitude) and/or lon (longitude) of $key"]
                     );
                 }
-                $markerTmpString = explode('|',$value);
-                foreach($markerTmpString as $option){
-                    $optionKey = (explode('=',$option))[0];
-                    $optionValue = str_replace("'","\\'",(explode('=',$option,2))[1]);
-                    match ($optionKey) {
-                        'lat' => $lat = $optionValue,
-                        'lon' => $lon = $optionValue,
-                        'text' => $text = $optionValue,
-                        'color' => $color = $optionValue,
-                        'iconSize' => $iconSize = $optionValue,
-                        'icon' => $icon = $optionValue,
-                        'strokeWidth' => $strokeWidth = $optionValue,
-                        'strokeColor' => $strokeColor = $optionValue,
-                    };
-                }
-                $snippet = Helper::parseMarkers($id,$lat,$lon,$text,$color,$iconSize,$icon,$strokeWidth,$strokeColor,$identifier,$this->popup,$key);
+                $snippet = Helper::parseMarkers(
+                    $id,
+                    $markerItem['lat'],
+                    $markerItem['lon'],
+                    isset($markerItem['text']) ? Purifier::clean(str_replace("'","\\'",$markerItem['text'])) : '',
+                    $markerItem['color'] ?? $this->color,
+                    $markerItem['iconSize'] ?? $this->iconSize,
+                    $markerItem['icon'] ?? $this->icon,
+                    $markerItem['strokeWidth'] ?? $this->strokeWidth,
+                    $markerItem['strokeColor'] ?? $this->strokeColor,
+                    $identifier,
+                    $markerItem['popup'] ?? $this->popup,
+                    $key
+                );
                 $allMarkers[] = implode('',$snippet);
             }
+
         }
+
         $markersString = implode('', $allMarkers);
 
         $code = '
@@ -251,6 +228,8 @@ class Map extends Tags
      */
     public function geojson()
     {
+        Helper::validateTagParams($this->params);
+
         $width = $this->params->get('width', $this->width);
         $height = $this->params->get('height', $this->height);
         $id = $this->params->get('id', 'id_'.mt_rand(1000,9999));
@@ -389,7 +368,6 @@ class Map extends Tags
                 </script>
             ';
         }
-
         return $code;
     }
 
