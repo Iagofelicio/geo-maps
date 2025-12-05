@@ -122,7 +122,10 @@ class Map extends Tags
         $center = $this->params->get('center', '['.$lat.', '.$lon.']');
 
         $text = $this->params->get('text', $this->text);
-        $text = Purifier::clean(str_replace("'","\\'",$text));
+        $text = Purifier::clean($text); 
+        $text = str_replace("'","\\'",$text);
+
+        // htmlentities
         $color = $this->params->get('color', $this->color);
         $iconSize = $this->params->get('iconSize', $this->iconSize);
         $icon = $this->params->get('icon', $this->icon);
@@ -184,11 +187,18 @@ class Map extends Tags
                         ['missing_info' => "Missing lat (latitude) and/or lon (longitude) of $key"]
                     );
                 }
+                
+                $text = '';
+                if(isset($markerItem['text'])){
+                    $text = Purifier::clean($markerItem['text']); 
+                    $text = str_replace("'","\\'",$text);
+                }
+
                 $snippet = Helper::parseMarkers(
                     $id,
                     $markerItem['lat'],
                     $markerItem['lon'],
-                    isset($markerItem['text']) ? Purifier::clean(str_replace("'","\\'",$markerItem['text'])) : '',
+                    $text,
                     $markerItem['color'] ?? $this->color,
                     $markerItem['iconSize'] ?? $this->iconSize,
                     $markerItem['icon'] ?? $this->icon,

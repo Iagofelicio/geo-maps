@@ -22,16 +22,28 @@ class Helper
                 $data['center'] = $decoded;
             }
         }
+        $colorRegex = '/^(' .
+            '#[\da-f]{3}|' . // Hex 3
+            '#[\da-f]{6}|' . // Hex 6
+            'rgba\(((\d{1,2}|1\d\d|2([0-4]\d|5[0-5]))\s*,\s*){2}((\d{1,2}|1\d\d|2([0-4]\d|5[0-5]))\s*)(,\s*(0\.\d+|1))\)|' . // RGBA
+            'hsla\(\s*((\d{1,2}|[1-2]\d{2}|3([0-5]\d|60)))\s*,\s*((\d{1,2}|100)\s*%)\s*,\s*((\d{1,2}|100)\s*%)(,\s*(0\.\d+|1))\)|' . // HSLA
+            'rgb\(((\d{1,2}|1\d\d|2([0-4]\d|5[0-5]))\s*,\s*){2}((\d{1,2}|1\d\d|2([0-4]\d|5[0-5]))\s*)\)|' . // RGB
+            'hsl\(\s*((\d{1,2}|[1-2]\d{2}|3([0-5]\d|60)))\s*,\s*((\d{1,2}|100)\s*%)\s*,\s*((\d{1,2}|100)\s*%)\)|' . // HSL
+            'oklch\(\s*([\d.]+%?)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+%?))?\s*\)|' . // OKLCH (With Alpha support)
+            'var\(\s*(--[\w-]+)\s*\)|' . // CSS Variables
+            '(black|silver|gray|white|maroon|red|purple|fuchsia|green|lime|olive|yellow|navy|blue|teal|aqua|aliceblue|antiquewhite|aqua|aquamarine|azure|beige|bisque|black|blanchedalmond|blue|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|cyan|darkblue|darkcyan|darkgoldenrod|darkgray|darkgreen|darkgrey|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkslategrey|darkturquoise|darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen|fuchsia|gainsboro|ghostwhite|gold|goldenrod|gray|green|greenyellow|grey|honeydew|hotpink|indianred|indigo|ivory|khaki|lavender|lavenderblush|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgray|lightgreen|lightgrey|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightslategrey|lightsteelblue|lightyellow|lime|limegreen|linen|magenta|maroon|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|navy|oldlace|olive|olivedrab|orange|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|purple|rebeccapurple|red|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|silver|skyblue|slateblue|slategray|slategrey|snow|springgreen|steelblue|tan|teal|thistle|tomato|transparent|turquoise|violet|wheat|white|whitesmoke|yellow|yellowgreen)' . // Named Colors
+        ')$/i';
+
         $validator = Validator::make($data, [
             'id' => ['nullable', 'max:30'],
             'icon' => ['nullable', 'string', 'max:20'],
-            'color' => ['nullable', 'regex:/^#(?:[0-9a-fA-F]{3}){1,2}$/'],
-            'strokeColor' => ['nullable', 'regex:/^#(?:[0-9a-fA-F]{3}){1,2}$/'],
+            'color' => ['nullable', 'regex:'.$colorRegex],
+            'strokeColor' => ['nullable', 'regex:'.$colorRegex],
             'strokeWidth' => ['nullable', 'integer', 'min:0', 'max:10'],
             'iconSize' => ['nullable', 'integer'],
             'width' => ['nullable', 'string', 'regex:/^\d+(px|%|rem|em|vh|vw)?$/'],
             'height' => ['nullable', 'string', 'regex:/^\d+(px|%|rem|em|vh|vw)?$/'],
-            'colorScheme' => ['nullable', 'in:light,dark'],
+            'colorScheme' => ['nullable', 'in:light,dark,auto,automatic,default'],
             'center' => ['nullable', 'array', 'size:2'],
             'center.0' => ['required_with:center','numeric'],
             'center.1' => ['required_with:center','numeric'],
@@ -48,9 +60,9 @@ class Helper
             'markers.*.lon' => ['required_with:markers', 'numeric', 'min:-180', 'max:180'],
             'markers.*.iconSize' => ['nullable','numeric'],
             'markers.*.icon' => ['nullable','string', 'max:20'],
-            'markers.*.color' => ['nullable','regex:/^#(?:[0-9a-fA-F]{3}){1,2}$/'],
+            'markers.*.color' => ['nullable','regex:'.$colorRegex],
             'markers.*.strokeWidth' => ['nullable','integer', 'min:0', 'max:10'],
-            'markers.*.strokeColor' => ['nullable','regex:/^#(?:[0-9a-fA-F]{3}){1,2}$/'],
+            'markers.*.strokeColor' => ['nullable','regex:'.$colorRegex],
             'markers.*.text' => ['nullable','string'],
         ]);
 
@@ -131,10 +143,14 @@ class Helper
 
         if($popup){
             $marker = '
+                var template_'.$markerId.' = document.createElement(\'template\');
+                template_'.$markerId.'.innerHTML = \''.$text.'\'.trim(); 
+                var fragment_'.$markerId.' = template_'.$markerId.'.content;
                 L.marker(['.$lat.', '.$lon.'], {
                     icon: icon_'.$id.'_'.$markerId.'
-                }).addTo('.$identifier.').bindPopup(\''.$text.'\');
+                }).addTo('.$identifier.').bindPopup(fragment_'.$markerId.');
             ';
+
         } else {
             $marker = '
                 L.marker(['.$lat.', '.$lon.'], {

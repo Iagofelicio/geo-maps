@@ -71,7 +71,7 @@ These options can be changed as in the example below:
     id="yourCustomId" # Default: random id
     width="100%" # Default: 500px
     height="500px" # Default: 500px
-    colorScheme="light" # Default: automatic. Options: light or dark
+    colorScheme="light" # Options: light or dark. Defaults to system preference if colorScheme not provided.
     popup="true" # Default: true
     center="[-23,-48]" # Must be in the format [lat,lon]. Default: [0,0]
     zoom="5" # Default: 1
@@ -94,7 +94,7 @@ To add a marker to the map you must use the method below. All parameters of a bl
     lon="-48" # Required
     zoom=7 # If not informed, it will be used "5"
     center="[-23,-48]" # If not informed, the lat and lon values will be used
-    text="I'm the message to be visualized when someone click the <b>popup</b>."
+    text="I'm the message to be visualized when someone click the <b>popup</b>.<br>This is a link that redirects you to Google: <a href='https://google.com'>Link</a>"
     icon="map-pin-house" # Default: map-pin. It can be any icon from Lucide
     color="#ed5d69" # Fill color. Default: #3591b3 
     strokeColor="#c7f4fe" # Outline color. Default: #c7f4fe
@@ -102,6 +102,46 @@ To add a marker to the map you must use the method below. All parameters of a bl
     iconSize=35 # Default: 42 
 }}
 ```
+
+##### Color Format Support
+
+The **color** and **strokeColor** fields accept various CSS formats beyond standard Hex codes. Supported formats include:
+
+```css
+/* HEX Codes */
+#ffffff
+#fff
+
+/* RGB and RGBA */
+rgb(10, 20, 30)
+rgba(170,221,255,0.59)
+
+/* HSL and HSLA */
+hsl(208,56%,46%)
+hsla(208, 56%, 46%, 1)
+
+/* OKLCH (With Alpha support) */
+oklch(35% .18 125)
+oklch(65% 0.18 145 / 50%)
+
+/* CSS Variables */
+var(--my-color)
+
+/* Named Colors */
+black, silver, gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, teal, aqua ...
+
+/* Full list can be found at: 
+    https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/named-color 
+*/
+
+```
+
+##### HTML Content & Sanitization
+
+The content of the **text** attribute is sanitized using the [mewebstudio/Purifier](https://github.com/mewebstudio/Purifier) package to prevent XSS attacks. 
+
+Please note that some HTML tags or attributes may be stripped out if they are not allowed by the purifier's default configuration.
+
 
 #### 3. Multiple Markers
 
