@@ -143,12 +143,15 @@ class Helper
 
         if($popup){
             $marker = '
-                var template_'.$markerId.' = document.createElement(\'template\');
-                template_'.$markerId.'.innerHTML = \''.$text.'\'.trim(); 
-                var fragment_'.$markerId.' = template_'.$markerId.'.content;
+                function getPopup_'.$markerId.'(){
+                    var template_'.$markerId.' = document.createElement(\'template\');
+                    template_'.$markerId.'.innerHTML = \''.$text.'\'.trim(); 
+                    return template_'.$markerId.'.content;
+                }
+
                 L.marker(['.$lat.', '.$lon.'], {
                     icon: icon_'.$id.'_'.$markerId.'
-                }).addTo('.$identifier.').bindPopup(fragment_'.$markerId.');
+                }).addTo('.$identifier.').bindPopup(getPopup_'.$markerId.');
             ';
 
         } else {

@@ -169,7 +169,7 @@ You can add as many markers as you want. However, to add more than one, use the 
         ]
 ]?}}
 
-# You should now pass the arraw of markers to the tag.
+# You should now pass the array of markers to the tag.
 {{ map:markers
     # Other map options ...
     center="[-22,-51]" # If not informed, the default will be used
