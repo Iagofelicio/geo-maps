@@ -51,6 +51,7 @@ class Helper
             'lon' => ['nullable', 'numeric', 'min:-180', 'max:180'],
             'zoom' => ['nullable', 'integer', 'min:0', 'max:20'],
             'maxZoom' => ['nullable', 'integer', 'min:0', 'max:20'],
+            'minZoom' => ['nullable', 'integer', 'min:0', 'max:20'],
             'popup' => ['nullable', 'boolean'],
             'url' => ['nullable', 'url:http,https'],
             'data' => ['nullable', 'json'],

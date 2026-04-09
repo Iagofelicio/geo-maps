@@ -16,6 +16,7 @@ class Map extends Tags
     private $centerLon = 0;
     private $zoom = '1';
     private $maxZoom = 20;
+    private $minZoom = 0;
     private $width = '500px';
     private $height = '500px';
     private $icon = 'map-pin';
@@ -67,6 +68,7 @@ class Map extends Tags
         $zoom = $this->params->get('zoom', $this->zoom);
         $center = $this->params->get('center', '['.$this->centerLat.', '.$this->centerLon.']');
         $maxZoom = $this->params->get('maxZoom', $this->maxZoom);
+        $minZoom = $this->params->get('minZoom', $this->minZoom);
 
         $identifier = "map_".$id;
         $tiles = "tiles_".$id;
@@ -84,6 +86,7 @@ class Map extends Tags
                 const '.$identifier.' = L.map(\''.$id.'\').setView('.$center.', '.$zoom.');
                 const '.$tiles.' = L.tileLayer(\'https://tile.openstreetmap.org/{z}/{x}/{y}.png\', {
                     maxZoom: '.$maxZoom.',
+                    minZoom: '.$minZoom.',
                     attribution: \'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>\',
                     className: colorScheme
                 }).addTo('.$identifier.');
@@ -112,6 +115,7 @@ class Map extends Tags
         $height = $this->params->get('height', $this->height);
         $id = $this->params->get('id', 'id_'.mt_rand(1000,9999));
         $maxZoom = $this->params->get('maxZoom', $this->maxZoom);
+        $minZoom = $this->params->get('minZoom', $this->minZoom);
 
         $identifier = "map_$id";
         $tiles = "tiles_$id";
@@ -145,6 +149,7 @@ class Map extends Tags
                 const '.$identifier.' = L.map(\''.$id.'\').setView('.$center.', '.$zoom.');
                 const '.$tiles.' = L.tileLayer(\'https://tile.openstreetmap.org/{z}/{x}/{y}.png\', {
                     maxZoom: '.$maxZoom.',
+                    minZoom: '.$minZoom.',
                     attribution: \'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>\',
                     className: colorScheme
                 }).addTo('.$identifier.');
@@ -175,6 +180,7 @@ class Map extends Tags
         $zoom = $this->params->get('zoom', $this->zoom);
         $center = $this->params->get('center', '['.$this->centerLat.', '.$this->centerLon.']');
         $maxZoom = $this->params->get('maxZoom', $this->maxZoom);
+        $minZoom = $this->params->get('minZoom', $this->minZoom);
 
         $colorScheme = $this->params->get('colorScheme', $this->colorScheme);
         $colorSchemeString = Helper::parseColorScheme($colorScheme);
@@ -222,6 +228,7 @@ class Map extends Tags
                 const '.$identifier.' = L.map(\''.$id.'\').setView('.$center.', '.$zoom.');
                 const '.$tiles.' = L.tileLayer(\'https://tile.openstreetmap.org/{z}/{x}/{y}.png\', {
                     maxZoom: '.$maxZoom.',
+                    minZoom: '.$minZoom.',
                     attribution: \'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>\',
                     className: colorScheme
                 }).addTo('.$identifier.');
@@ -246,6 +253,7 @@ class Map extends Tags
         $zoom = $this->params->get('zoom', $this->zoom);
         $center = $this->params->get('center', '['.$this->centerLat.', '.$this->centerLon.']');
         $maxZoom = $this->params->get('maxZoom', $this->maxZoom);
+        $minZoom = $this->params->get('minZoom', $this->minZoom);
         $identifier = "map_".$id;
         $tiles = "tiles_".$id;
 
@@ -326,6 +334,7 @@ class Map extends Tags
                             const '.$identifier.' = L.map(\''.$id.'\').setView('.$center.', '.$zoom.');
                             const '.$tiles.' = L.tileLayer(\'https://tile.openstreetmap.org/{z}/{x}/{y}.png\', {
                                 maxZoom: '.$maxZoom.',
+                                minZoom: '.$minZoom.',
                                 attribution: \'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>\',
                                 className: colorScheme
                             }).addTo('.$identifier.');
@@ -338,6 +347,7 @@ class Map extends Tags
                             const '.$identifier.' = L.map(\''.$id.'\').setView('.$center.', '.$zoom.');
                             const '.$tiles.' = L.tileLayer(\'https://tile.openstreetmap.org/{z}/{x}/{y}.png\', {
                                 maxZoom: '.$maxZoom.',
+                                minZoom: '.$minZoom.',
                                 attribution: \'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>\',
                                 className: colorScheme
                             }).addTo('.$identifier.');
@@ -356,6 +366,7 @@ class Map extends Tags
                     const '.$identifier.' = L.map(\''.$id.'\').setView('.$center.', '.$zoom.');
                     const '.$tiles.' = L.tileLayer(\'https://tile.openstreetmap.org/{z}/{x}/{y}.png\', {
                         maxZoom: '.$maxZoom.',
+                        minZoom: '.$minZoom.',
                         attribution: \'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>\',
                         className: colorScheme
                     }).addTo('.$identifier.');
@@ -372,6 +383,7 @@ class Map extends Tags
                     const '.$identifier.' = L.map(\''.$id.'\').setView('.$center.', '.$zoom.');
                     const '.$tiles.' = L.tileLayer(\'https://tile.openstreetmap.org/{z}/{x}/{y}.png\', {
                         maxZoom: '.$maxZoom.',
+                        minZoom: '.$minZoom.',
                         attribution: \'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>\',
                         className: colorScheme
                     }).addTo('.$identifier.');

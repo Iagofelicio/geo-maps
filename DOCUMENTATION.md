@@ -76,6 +76,7 @@ These options can be changed as in the example below:
     center="[-23,-48]" # Must be in the format [lat,lon]. Default: [0,0]
     zoom="5" # Default: 1
     maxZoom="15" # Default: 20
+    minZoom="5" # Default: 0
 }}
 ```
 
