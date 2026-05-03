@@ -3,8 +3,6 @@
 namespace Iagofelicio\GeoMaps\Tags;
 
 use Statamic\Tags\Tags;
-use Statamic\Support\Str;
-use Statamic\Assets\Asset;
 use Mews\Purifier\Facades\Purifier;
 use Iagofelicio\GeoMaps\Utils\Helper;
 use Illuminate\Validation\ValidationException;
@@ -17,6 +15,8 @@ class Map extends Tags
     private $zoom = '1';
     private $maxZoom = 20;
     private $minZoom = 0;
+    private $maxBounds = null;
+    private $maxBoundsViscosity = 1;
     private $width = '500px';
     private $height = '500px';
     private $icon = 'map-pin';
@@ -69,7 +69,9 @@ class Map extends Tags
         $center = $this->params->get('center', '['.$this->centerLat.', '.$this->centerLon.']');
         $maxZoom = $this->params->get('maxZoom', $this->maxZoom);
         $minZoom = $this->params->get('minZoom', $this->minZoom);
-
+        $maxBounds = $this->params->get('maxBounds', $this->maxBounds);
+        $maxBoundsViscosity = $this->params->get('maxBoundsViscosity', $this->maxBoundsViscosity);
+        $maxBoundsString = Helper::parseMaxBounds($maxBounds, $maxBoundsViscosity);
         $identifier = "map_".$id;
         $tiles = "tiles_".$id;
 
@@ -83,7 +85,7 @@ class Map extends Tags
             <div id="'.$id.'" style="width: '.$width.'; height: '.$height.';"></div>
             <script>
                 '.$colorSchemeString.'
-                const '.$identifier.' = L.map(\''.$id.'\').setView('.$center.', '.$zoom.');
+                const '.$identifier.' = L.map(\''.$id.'\',{'.$maxBoundsString.'}).setView('.$center.', '.$zoom.');
                 const '.$tiles.' = L.tileLayer(\'https://tile.openstreetmap.org/{z}/{x}/{y}.png\', {
                     maxZoom: '.$maxZoom.',
                     minZoom: '.$minZoom.',
@@ -116,7 +118,9 @@ class Map extends Tags
         $id = $this->params->get('id', 'id_'.mt_rand(1000,9999));
         $maxZoom = $this->params->get('maxZoom', $this->maxZoom);
         $minZoom = $this->params->get('minZoom', $this->minZoom);
-
+        $maxBounds = $this->params->get('maxBounds', $this->maxBounds);
+        $maxBoundsViscosity = $this->params->get('maxBoundsViscosity', $this->maxBoundsViscosity);
+        $maxBoundsString = Helper::parseMaxBounds($maxBounds, $maxBoundsViscosity);
         $identifier = "map_$id";
         $tiles = "tiles_$id";
 
@@ -146,7 +150,7 @@ class Map extends Tags
             <div id="'.$id.'" style="width: '.$width.'; height: '.$height.';"></div>
             <script>
                 '.$colorSchemeString.'
-                const '.$identifier.' = L.map(\''.$id.'\').setView('.$center.', '.$zoom.');
+                const '.$identifier.' = L.map(\''.$id.'\',{'.$maxBoundsString.'}).setView('.$center.', '.$zoom.');
                 const '.$tiles.' = L.tileLayer(\'https://tile.openstreetmap.org/{z}/{x}/{y}.png\', {
                     maxZoom: '.$maxZoom.',
                     minZoom: '.$minZoom.',
@@ -181,6 +185,9 @@ class Map extends Tags
         $center = $this->params->get('center', '['.$this->centerLat.', '.$this->centerLon.']');
         $maxZoom = $this->params->get('maxZoom', $this->maxZoom);
         $minZoom = $this->params->get('minZoom', $this->minZoom);
+        $maxBounds = $this->params->get('maxBounds', $this->maxBounds);
+        $maxBoundsViscosity = $this->params->get('maxBoundsViscosity', $this->maxBoundsViscosity);
+        $maxBoundsString = Helper::parseMaxBounds($maxBounds, $maxBoundsViscosity);
 
         $colorScheme = $this->params->get('colorScheme', $this->colorScheme);
         $colorSchemeString = Helper::parseColorScheme($colorScheme);
@@ -225,7 +232,7 @@ class Map extends Tags
             <div id="'.$id.'" style="width: '.$width.'; height: '.$height.';"></div>
             <script>
                 '.$colorSchemeString.'
-                const '.$identifier.' = L.map(\''.$id.'\').setView('.$center.', '.$zoom.');
+                const '.$identifier.' = L.map(\''.$id.'\',{'.$maxBoundsString.'}).setView('.$center.', '.$zoom.');
                 const '.$tiles.' = L.tileLayer(\'https://tile.openstreetmap.org/{z}/{x}/{y}.png\', {
                     maxZoom: '.$maxZoom.',
                     minZoom: '.$minZoom.',
@@ -254,6 +261,10 @@ class Map extends Tags
         $center = $this->params->get('center', '['.$this->centerLat.', '.$this->centerLon.']');
         $maxZoom = $this->params->get('maxZoom', $this->maxZoom);
         $minZoom = $this->params->get('minZoom', $this->minZoom);
+        $maxBounds = $this->params->get('maxBounds', $this->maxBounds);
+        $maxBoundsViscosity = $this->params->get('maxBoundsViscosity', $this->maxBoundsViscosity);
+        $maxBoundsString = Helper::parseMaxBounds($maxBounds, $maxBoundsViscosity);
+
         $identifier = "map_".$id;
         $tiles = "tiles_".$id;
 
@@ -331,7 +342,7 @@ class Map extends Tags
                         .then(response => response.json())
                         .then(geojson_'.$id.' => {
                             '.$colorSchemeString.'
-                            const '.$identifier.' = L.map(\''.$id.'\').setView('.$center.', '.$zoom.');
+                            const '.$identifier.' = L.map(\''.$id.'\',{'.$maxBoundsString.'}).setView('.$center.', '.$zoom.');
                             const '.$tiles.' = L.tileLayer(\'https://tile.openstreetmap.org/{z}/{x}/{y}.png\', {
                                 maxZoom: '.$maxZoom.',
                                 minZoom: '.$minZoom.',
@@ -344,7 +355,7 @@ class Map extends Tags
                         })
                         .catch(error => {
                             console.error(\'Error fetching GeoJSON:\', error);
-                            const '.$identifier.' = L.map(\''.$id.'\').setView('.$center.', '.$zoom.');
+                            const '.$identifier.' = L.map(\''.$id.'\',{'.$maxBoundsString.'}).setView('.$center.', '.$zoom.');
                             const '.$tiles.' = L.tileLayer(\'https://tile.openstreetmap.org/{z}/{x}/{y}.png\', {
                                 maxZoom: '.$maxZoom.',
                                 minZoom: '.$minZoom.',
@@ -363,7 +374,7 @@ class Map extends Tags
                     '.$popUp_feature.'
                     var geojson_'.$id.' = '.$data.';
                     '.$colorSchemeString.'
-                    const '.$identifier.' = L.map(\''.$id.'\').setView('.$center.', '.$zoom.');
+                    const '.$identifier.' = L.map(\''.$id.'\',{'.$maxBoundsString.'}).setView('.$center.', '.$zoom.');
                     const '.$tiles.' = L.tileLayer(\'https://tile.openstreetmap.org/{z}/{x}/{y}.png\', {
                         maxZoom: '.$maxZoom.',
                         minZoom: '.$minZoom.',
@@ -380,7 +391,7 @@ class Map extends Tags
                 <div id="'.$id.'" style="width: '.$width.'; height: '.$height.';"></div>
                 <script>
                     '.$colorSchemeString.'
-                    const '.$identifier.' = L.map(\''.$id.'\').setView('.$center.', '.$zoom.');
+                    const '.$identifier.' = L.map(\''.$id.'\',{'.$maxBoundsString.'}).setView('.$center.', '.$zoom.');
                     const '.$tiles.' = L.tileLayer(\'https://tile.openstreetmap.org/{z}/{x}/{y}.png\', {
                         maxZoom: '.$maxZoom.',
                         minZoom: '.$minZoom.',

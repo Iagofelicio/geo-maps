@@ -177,5 +177,22 @@ class Helper
         return [$icon,$marker,$lucide];
     }
 
+        /**
+     * Build the proper code to enable maxBounds
+     *
+     * @return string|array
+     */
+    public static function parseMaxBounds($maxBounds, $maxBoundsViscosity)
+    {
+
+        if(!isset($maxBounds)){
+            return '';
+        } else {
+            return '
+                maxBounds: '.$maxBounds.',
+                maxBoundsViscosity: '.$maxBoundsViscosity.'
+            ';
+        }
+    }
 }
 

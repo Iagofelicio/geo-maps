@@ -76,7 +76,9 @@ These options can be changed as in the example below:
     center="[-23,-48]" # Must be in the format [lat,lon]. Default: [0,0]
     zoom="5" # Default: 1
     maxZoom="15" # Default: 20
-    minZoom="5" # Default: 0
+    minZoom="3" # Default: 0
+    maxBounds="[[-37,-74],[6,-34]]" # Limits how far users can drag the map (format: [[bottom-left],[top-right]])
+    maxBoundsViscosity="0.95" # Strength of the limit: 0 = soft, 1 = cannot drag outside
 }}
 ```
 
